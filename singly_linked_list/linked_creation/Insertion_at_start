@@ -1,0 +1,50 @@
+// IN this code we are creating linked list by inserting the elements at the start of the list 
+#include<iostream>
+using namespace std;
+
+class NODE{
+   public:
+   int data;
+   NODE *next;
+   NODE(int value){
+       data = value;
+       next = NULL;
+   }
+};
+
+int main()
+{
+    // NODE A1(4);
+    // NODE *head;
+    // head = new NODE(2);
+
+    // cout << head->data << " " << head->next << endl;
+
+    //Insert at the start of linkedlist
+    NODE *head ;
+    head = NULL;
+    int arr[5] = {3,4,6,8,9};
+    for(int i=0;i<5;i++){
+    if(head == NULL){           // if linkedlist doesnt exist
+        head = new NODE(arr[i]);
+    }
+    else{                    // if linked list already exist
+        NODE * temp;
+        temp = new NODE(arr[i]);
+        temp->next = head;
+        head = temp;
+    }
+}
+    NODE *temp = head;
+    while(temp != NULL){ // we can write only temp here , it signifies that run the until the temp value exist
+        cout << temp->data << " ";
+        temp = temp->next;
+    }
+   NODE* current = head;
+    while (current != NULL) {
+    NODE* nextNode = current->next;
+    delete current;
+    current = nextNode;
+}
+    return 0;
+}
