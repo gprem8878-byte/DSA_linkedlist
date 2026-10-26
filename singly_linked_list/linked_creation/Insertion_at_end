@@ -1,0 +1,52 @@
+// In this file we are creating list by inserting the elements in the end of the list 
+#include<iostream>
+using namespace std;
+
+class NODE{
+   public:
+   int data;
+   NODE *next;
+   NODE(int value){
+       data = value;
+       next = NULL;
+   }
+};
+
+int main()
+{
+    NODE *Head,*tail;
+    Head = NULL,tail = NULL;
+    int arr[5] = {2,3,5,7,8}; 
+
+    // for(int i=0;i<5;i++){
+    //     if(Head == NULL){
+    //         Head = new NODE(arr[i]);
+    //     }
+    //     else{ //Brute force approach
+    //         NODE *tail;
+    //         tail = Head;
+    //         while(tail->next != NULL){
+    //             tail = tail->next;
+    //         }
+    //         tail->next = new NODE(arr[i]);
+    //     }
+    // }
+    for(int i=0;i<5;i++){
+        if(Head == NULL){
+            Head = new NODE(arr[i]);
+            tail = Head;
+        }
+        else{
+            tail->next = new NODE(arr[i]);
+            tail = tail->next;
+        }
+    }
+
+    NODE *temp ;
+    temp = Head;
+    while(temp != NULL){ // we can write only temp here , it signifies that run the until the temp value exist
+        cout << temp->data << " ";
+        temp = temp->next;
+    }
+    return 0;
+}
