@@ -1,0 +1,52 @@
+#include<iostream>
+using namespace std;
+
+class NODE{
+   public:
+   int data;
+   NODE *next;
+   NODE(int value){
+       data = value;
+       next = NULL;
+   }
+};
+NODE *Create_Linked_list(int arr[],int index,int size){
+    if(index == size){
+        return NULL;
+    }
+    NODE *temp ;
+    temp = new NODE(arr[index]);
+    temp->next = Create_Linked_list(arr,index+1,size);
+    return temp;
+    // Time and space complexity is O(n )
+}
+NODE* Insert(NODE* head,int pos,int val){
+    if(pos == 0){
+        NODE* newNode = new NODE(val);
+        newNode->next = head;
+        return newNode;
+    }
+    if(head == NULL) return head;
+    head->next = Insert(head->next,pos-1,val);
+    return head;
+}
+int main()
+{
+    NODE *Head,*temp = NULL;
+    Head = NULL;
+    int arr[5] = {2,3,5,7,8};
+    
+    Head = Create_Linked_list(arr,0,5);
+    Insert(Head,2,6);
+    temp = Head;
+    while(temp != NULL){ // we can write only temp here , it signifies that run the until the temp value exist
+        cout << temp->data << " ";
+        temp = temp->next;
+    }
+    NODE* current = Head;
+    while (current != NULL) {
+    NODE* nextNode = current->next;
+    delete current;
+    current = nextNode;
+    }
+}
