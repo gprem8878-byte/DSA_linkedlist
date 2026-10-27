@@ -1,0 +1,38 @@
+// gfg problem (Easy level)
+
+class Solution {
+public:
+    Node* pairwiseSwap(Node* head) {
+        // Handle an empty list or a single node
+        if (!head || !head->next)
+            return head;
+
+        Node *curr = head->next, *prev = head, *future = NULL;
+
+        // Swap the first pair and update the head
+        future = curr->next;
+        curr->next = prev;
+        prev->next = future;
+        head = curr;
+
+        // Track the tail of the previously swapped pair
+        Node *prevTail = prev;
+
+        // Swap remaining pairs while two nodes are available
+        while (prevTail->next != NULL &&
+               prevTail->next->next != NULL) {
+            prev = prevTail->next;
+            curr = prev->next;
+            future = curr->next;
+
+            prevTail->next = curr;
+            curr->next = prev;
+            prev->next = future;
+
+            // Update the tail for the next iteration
+            prevTail = prev;
+        }
+
+        return head;
+    }
+};
