@@ -1,0 +1,45 @@
+/* Definition of a Linked List Node
+class Node
+{
+  public:
+    int data;
+    Node *next;
+    Node(int val)
+    {
+        data = val;
+        next = nullptr;
+    }
+};*/
+
+// gfg problem(Easy level)
+class Solution {
+public:
+    Node* sortedInsert(Node* head, int key) {
+        // Handle an empty list
+        if (!head)
+            return new Node(key);
+
+        // Insert before the current head
+        if (key < head->data) {
+            Node* temp = new Node(key);
+            temp->next = head;
+            return temp;
+        }
+
+        Node* prev = head;
+        Node* curr = head->next;
+
+        // Find the correct insertion position
+        while (curr != NULL && curr->data < key) {
+            prev = curr;
+            curr = curr->next;
+        }
+
+        // Insert the new node between prev and curr
+        Node* temp = new Node(key);
+        temp->next = curr;
+        prev->next = temp;
+
+        return head;
+    }
+};
