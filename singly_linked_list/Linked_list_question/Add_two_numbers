@@ -1,0 +1,89 @@
+/*
+    Problem: Add Two Numbers
+    Platform: LeetCode
+    Problem Number: 2
+
+    Approach:
+    - Traverse both linked lists simultaneously.
+    - Add corresponding digits along with the carry.
+    - Store the last digit (sum % 10) in a new node.
+    - Update carry using sum / 10.
+    - Process any remaining nodes and append the final carry.
+
+    Time Complexity: O(max(m, n))
+    Auxiliary Space Complexity: O(1)
+    Output Space Complexity: O(max(m, n))
+*/
+/**
+ * Definition for singly-linked list.
+ * struct ListNode {
+ *     int val;
+ *     ListNode *next;
+ *     ListNode() : val(0), next(nullptr) {}
+ *     ListNode(int x) : val(x), next(nullptr) {}
+ *     ListNode(int x, ListNode *next) : val(x), next(next) {}
+ * };
+ */
+class Solution {
+public:
+    ListNode* addTwoNumbers(ListNode* l1, ListNode* l2) {
+
+        ListNode* curr1 = l1;
+        ListNode* curr2 = l2;
+
+        // Dummy node simplifies linked list construction
+        ListNode* head = new ListNode(0);
+        ListNode* tail = head;
+
+        int carry = 0, sum;
+
+        // Add corresponding digits while both lists have nodes
+        while(curr1 && curr2) {
+            sum = curr1->val + curr2->val + carry;
+
+            // Store the current digit (units place)
+            tail->next = new ListNode(sum % 10);
+            tail = tail->next;
+
+            curr1 = curr1->next;
+            curr2 = curr2->next;
+
+            // Calculate carry for the next addition
+            carry = sum / 10;
+        }
+
+        // Process remaining digits of the first list
+        while(curr1) {
+            sum = curr1->val + carry;
+
+            tail->next = new ListNode(sum % 10);
+            tail = tail->next;
+
+            curr1 = curr1->next;
+            carry = sum / 10;
+        }
+
+        // Process remaining digits of the second list
+        while(curr2) {
+            sum = curr2->val + carry;
+
+            tail->next = new ListNode(sum % 10);
+            tail = tail->next;
+
+            curr2 = curr2->next;
+            carry = sum / 10;
+        }
+
+        // If a carry remains, add it as a new node
+        while(carry) {
+            tail->next = new ListNode(carry % 10);
+            tail = tail->next;
+            carry /= 10;
+        }
+
+        // Remove the dummy node and return the result
+        head = head->next;
+
+        return head;
+    }
+};
