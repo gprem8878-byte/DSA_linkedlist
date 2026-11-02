@@ -1,0 +1,68 @@
+/*
+    Problem: Swapping Nodes in a Linked List
+    Platform: LeetCode
+    Problem Number: 1721
+
+    Approach:
+    - Count the total number of nodes.
+    - Find the kth node from the beginning.
+    - Find the kth node from the end.
+    - Swap their values.
+
+    Time Complexity: O(n)
+    Auxiliary Space Complexity: O(1)
+*/
+/**
+ * Definition for singly-linked list.
+ * struct ListNode {
+ *     int val;
+ *     ListNode *next;
+ *     ListNode() : val(0), next(nullptr) {}
+ *     ListNode(int x) : val(x), next(nullptr) {}
+ *     ListNode(int x, ListNode *next) : val(x), next(next) {}
+ * };
+ */
+ 
+class Solution {
+public:
+    ListNode* swapNodes(ListNode* head, int k) {
+        if(!head || !head->next)
+            return head;
+
+        // Calculate the total number of nodes
+        ListNode* tail = head;
+        int count = 1;
+
+        while(tail->next) {
+            count++;
+            tail = tail->next;
+        }
+
+        // Find the kth node from the beginning
+        ListNode* curr = head;
+        int x = k;
+
+        while(--x) {
+            curr = curr->next;
+        }
+
+        // Find the kth node from the end
+        ListNode* tailfront = head;
+        x = count - k;
+
+        while(x--) {
+            tailfront = tailfront->next;
+        }
+
+        // No swapping needed if both positions point to the same node
+        if(curr == tailfront)
+            return head;
+
+        // Swap the values of the two nodes
+        int temp = curr->val;
+        curr->val = tailfront->val;
+        tailfront->val = temp;
+
+        return head;
+    }
+};
