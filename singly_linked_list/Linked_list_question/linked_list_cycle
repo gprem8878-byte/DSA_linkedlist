@@ -1,0 +1,38 @@
+
+/*
+    Problem: Linked List Cycle
+    Platform: LeetCode
+    Problem Number: 141
+
+    Approach:
+    - Use Floyd's Cycle Detection Algorithm (Slow and Fast Pointers).
+    - Move slow by one step and fast by two steps.
+    - If both pointers meet, a cycle exists.
+    - If fast reaches NULL, no cycle exists.
+
+    Time Complexity: O(n)
+    Auxiliary Space Complexity: O(1)
+*/
+
+class Solution {
+public:
+    bool hasCycle(ListNode *head) {
+        if(!head || !head->next)
+            return false;
+
+        ListNode *slow = head;
+        ListNode *fast = head->next;
+
+        // Move slow by one step and fast by two steps
+        while(fast && fast->next) {
+            slow = slow->next;
+            fast = fast->next->next;
+
+            // Both pointers meeting indicates a cycle
+            if(slow == fast)
+                return true;
+        }
+
+        return false;
+    }
+};
