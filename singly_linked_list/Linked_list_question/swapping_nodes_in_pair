@@ -1,0 +1,61 @@
+
+/*
+    Problem: Swap Nodes in Pairs
+    Platform: LeetCode
+    Problem Number: 24
+
+    Approach:
+    - Swap adjacent nodes in pairs by changing their next pointers.
+    - Maintain prevTail to connect the previously swapped pair
+      with the next pair.
+    - Handle the first pair separately to update the head.
+
+    Time Complexity: O(n)
+    Auxiliary Space Complexity: O(1)
+*/
+/**
+ * Definition for singly-linked list.
+ * struct ListNode {
+ *     int val;
+ *     ListNode *next;
+ *     ListNode() : val(0), next(nullptr) {}
+ *     ListNode(int x) : val(x), next(nullptr) {}
+ *     ListNode(int x, ListNode *next) : val(x), next(next) {}
+ * };
+ */
+class Solution {
+public:
+    ListNode* swapPairs(ListNode* head) {
+
+        if(!head || !head->next)
+            return head;
+
+        // Swap the first pair and update the head
+        ListNode *prev = head, *curr = head->next, *future = NULL;
+
+        future = curr->next;
+        curr->next = prev;
+        prev->next = future;
+
+        head = curr;
+
+        // Keep track of the last node of the swapped pair
+        ListNode* prevTail = prev;
+
+        // Swap the remaining adjacent pairs
+        while(prevTail->next != NULL && prevTail->next->next != NULL) {
+            prev = prevTail->next;
+            curr = prev->next;
+            future = curr->next;
+
+            // Connect the previous pair to the current pair
+            prevTail->next = curr;
+            curr->next = prev;
+            prev->next = future;
+
+            prevTail = prev;
+        }
+
+        return head;
+    }
+};
