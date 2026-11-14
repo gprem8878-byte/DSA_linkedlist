@@ -1,0 +1,42 @@
+// leetcode 69
+class Solution {
+public:
+    int mySqrt(int x) {
+        int start = 0, end = x, mid, ans;
+
+        // Handle base cases: sqrt(0) = 0 and sqrt(1) = 1
+        if (x < 2)
+            return x;
+
+        while (start <= end)
+        {
+            // Calculate mid safely to avoid integer overflow
+            mid = start + (end - start) / 2;
+
+            // Integer division avoids overflow from mid * mid
+            // If mid == x / mid, mid is the required floor square root
+            if (mid == x / mid)
+            {
+                return mid;
+            }
+
+            // mid is smaller than the square root
+            // Store it as a possible answer and search the right half
+            else if (mid < x / mid)
+            {
+                ans = mid;
+                start = mid + 1;
+            }
+
+            // mid is greater than the square root
+            // Search the left half
+            else
+            {
+                end = mid - 1;
+            }
+        }
+
+        // Return the greatest integer whose square is <= x
+        return ans;
+    }
+};
