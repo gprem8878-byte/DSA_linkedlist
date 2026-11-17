@@ -1,0 +1,77 @@
+// leetcode 23
+/*
+    Problem: Merge k Sorted Lists
+    Platform: LeetCode
+    Problem Number: 23
+
+    Approach:
+    - Use merge sort on the array of linked list heads.
+    - Recursively divide the array into smaller halves.
+    - Merge the sorted linked lists from both halves.
+    - Store the merged list at the starting index of each range.
+
+    Time Complexity: O(N log k)
+    Auxiliary Space Complexity: O(log k) for recursion stack
+*/
+
+class Solution {
+public:
+    ListNode* merge(ListNode* head1, ListNode* head2) {
+        // Handle cases where one of the lists is empty
+        if(!head1)
+            return head2;
+        if(!head2)
+            return head1;
+
+        // Create a dummy node to simplify merging
+        ListNode* head = new ListNode(0);
+        ListNode* tail = head;
+
+        // Compare nodes and attach the smaller one
+        while(head1 && head2) {
+            if(head1->val <= head2->val) {
+                tail->next = head1;
+                head1 = head1->next;
+                tail = tail->next;
+            }
+            else {
+                tail->next = head2;
+                head2 = head2->next;
+                tail = tail->next;
+            }
+        }
+
+        // Attach the remaining nodes
+        if(head1)
+            tail->next = head1;
+        else
+            tail->next = head2;
+
+        return head->next;
+    }
+
+    void mergesort(vector<ListNode*>& arr, int start, int end) {
+        // Base case: range contains at most one list
+        if(start >= end) {
+            return;
+        }
+
+        int mid = start + (end - start) / 2;
+
+        // Recursively sort both halves
+        mergesort(arr, start, mid);
+        mergesort(arr, mid + 1, end);
+
+        // Merge both halves and store the result at the starting index
+        arr[start] = merge(arr[start], arr[mid + 1]);
+    }
+
+    ListNode* mergeKLists(vector<ListNode*>& lists) {
+        // Handle an empty array of lists
+        if(lists.empty())
+            return NULL;
+
+        mergesort(lists, 0, lists.size() - 1);
+        return lists[0];
+    }
+};
