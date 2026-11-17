@@ -1,0 +1,63 @@
+// leetcode 160
+/*
+    Problem: Intersection of Two Linked Lists
+    Platform: LeetCode
+    Problem Number: 160
+
+    Approach:
+    - Calculate the lengths of both linked lists.
+    - Find the difference between their lengths.
+    - Move the pointer of the longer list ahead by that difference.
+    - Traverse both lists together until they point to the same node.
+
+    Time Complexity: O(m + n)
+    Auxiliary Space Complexity: O(1)
+*/
+
+class Solution {
+public:
+    ListNode *getIntersectionNode(ListNode *headA, ListNode *headB) {
+
+        // Handle empty linked lists
+        if(!headA || !headB)
+            return NULL;
+
+        ListNode *currA = headA, *currB = headB;
+        int countA = 0, countB = 0;
+
+        // Calculate the length of the first linked list
+        while(currA) {
+            countA++;
+            currA = currA->next;
+        }
+
+        // Calculate the length of the second linked list
+        while(currB) {
+            countB++;
+            currB = currB->next;
+        }
+
+        currA = headA, currB = headB;
+
+        // Align both pointers by advancing the longer list
+        if(countA > countB) {
+            int count = countA - countB;
+            while(count--)
+                currA = currA->next;
+        }
+        else {
+            int count = countB - countA;
+            while(count--)
+                currB = currB->next;
+        }
+
+        // Move both pointers together to find the intersection
+        while(currA && currB && currA != currB) {
+            currA = currA->next;
+            currB = currB->next;
+        }
+
+        // Return the intersection node or NULL if none exists
+        return currA;
+    }
+};
