@@ -1,0 +1,30 @@
+// Leetcode 852
+
+class Solution {
+public:
+    int peakIndexInMountainArray(vector<int>& arr) {
+        int start = 0, end = arr.size() - 1, mid;
+
+        while(start <= end)
+        {
+            mid = start + (end - start) / 2;
+
+            // Check if mid is the peak element
+            if(arr[mid] > arr[mid-1] && arr[mid] > arr[mid+1])
+            {
+                return mid;
+            }
+            else if(arr[mid] > arr[mid-1])
+            {
+                // We are on the increasing slope, so peak lies on the right
+                start = mid + 1;
+            }
+            else
+            {
+                // We are on the decreasing slope, so peak lies on the left
+                end = mid - 1;
+            }
+        }
+        return -1;
+    }
+};
