@@ -1,0 +1,35 @@
+// leetcode 206
+/*
+    Problem: Reverse Linked List
+    Platform: LeetCode
+    Problem Number: 206
+
+    Approach:
+    - Use three pointers: prev, curr, and future.
+    - Store the next node before reversing the current link.
+    - Reverse each node's pointer and move forward.
+    - Update head to the new first node.
+
+    Time Complexity: O(n)
+    Auxiliary Space Complexity: O(1)
+*/
+
+class Solution {
+public:
+    ListNode* reverseList(ListNode* head) {
+        ListNode *prev = NULL, *curr = head, *future = NULL;
+
+        // Reverse the links of the nodes one by one
+        while(curr) {
+            future = curr->next;  // Store the next node
+            curr->next = prev;    // Reverse the current link
+            prev = curr;          // Move prev one step forward
+            curr = future;        // Move curr to the next node
+        }
+
+        // Update head to point to the new first node
+        head = prev;
+
+        return head;
+    }
+};
