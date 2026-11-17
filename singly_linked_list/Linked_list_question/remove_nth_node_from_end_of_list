@@ -1,0 +1,56 @@
+// leetcode 19
+/*
+    Problem: Remove Nth Node From End of List
+    Platform: LeetCode
+    Problem Number: 19
+
+    Approach:
+    - Count the total number of nodes in the linked list.
+    - Calculate the position of the node to be deleted from the beginning.
+    - Traverse to the target node while maintaining a previous pointer.
+    - Update links and delete the target node.
+
+    Time Complexity: O(L)
+    Auxiliary Space Complexity: O(1)
+*/
+
+class Solution {
+public:
+    ListNode* removeNthFromEnd(ListNode* head, int n) {
+        int count = 0;
+        ListNode* curr;
+        curr = head;
+
+        // Count the total number of nodes
+        while(curr) {
+            count++;
+            curr = curr->next;
+        }
+
+        // Calculate the position of the target node from the beginning
+        count -= n;
+
+        if(count == 0) { // Delete the first node
+            curr = head;
+            head = head->next;
+            delete curr;
+            return head;
+        }
+
+        curr = head;
+        ListNode* prev;
+        prev = NULL;
+
+        // Traverse to the target node
+        while(count--) {
+            prev = curr;
+            curr = curr->next;
+        }
+
+        // Bypass and delete the target node
+        prev->next = curr->next;
+        delete curr;
+
+        return head;
+    }
+};
