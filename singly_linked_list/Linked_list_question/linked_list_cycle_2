@@ -1,0 +1,47 @@
+// leetcode 142
+/*
+    Problem: Linked List Cycle II
+    Platform: LeetCode
+    Problem Number: 142
+
+    Approach:
+    - Use Floyd's Cycle Detection Algorithm (Slow and Fast Pointers).
+    - Move slow by one step and fast by two steps.
+    - If they meet, a cycle exists.
+    - Reset slow to head and move both pointers one step at a time.
+    - Their meeting point is the starting node of the cycle.
+
+    Time Complexity: O(n)
+    Auxiliary Space Complexity: O(1)
+*/
+
+class Solution {
+public:
+    ListNode *detectCycle(ListNode *head) {
+        ListNode *slow = head, *fast = head;
+
+        // Detect whether a cycle exists
+        while(fast && fast->next) {
+            slow = slow->next;
+            fast = fast->next->next;
+
+            if(slow == fast)
+                break;
+        }
+
+        // No cycle detected
+        if(!fast || !fast->next)
+            return NULL;
+
+        // Reset slow to head to find the cycle's starting node
+        slow = head;
+
+        // Move both pointers one step at a time
+        while(slow != fast) {
+            slow = slow->next;
+            fast = fast->next;
+        }
+
+        return slow;
+    }
+};
