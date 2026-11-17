@@ -1,0 +1,72 @@
+// leetcode 234
+/*
+    Problem: Palindrome Linked List
+    Platform: LeetCode
+    Problem Number: 234
+
+    Approach:
+    - Find the total number of nodes in the linked list.
+    - Reach the middle node and separate the two halves.
+    - Reverse the second half of the linked list.
+    - Compare both halves node by node.
+
+    Time Complexity: O(n)
+    Auxiliary Space Complexity: O(1)
+*/
+
+class Solution {
+public:
+    bool isPalindrome(ListNode* head) {
+        // A single-node list is always a palindrome
+        if(head->next == NULL) {
+            return true;
+        }
+
+        int count = 0;
+        ListNode *curr = head;
+
+        // Count the total number of nodes
+        while(curr) {
+            count++;
+            curr = curr->next;
+        }
+
+        // Find the middle position
+        count /= 2;
+
+        ListNode* prev;
+        prev = NULL;
+        curr = head;
+
+        // Reach the beginning of the second half
+        while(count--) {
+            prev = curr;
+            curr = curr->next;
+        }
+
+        // Separate the two halves
+        prev->next = NULL;
+
+        ListNode* front;
+        prev = NULL;
+
+        // Reverse the second half
+        while(curr) {
+            front = curr->next;
+            curr->next = prev;
+            prev = curr;
+            curr = front;
+        }
+
+        // Compare the first and reversed second halves
+        while(head) {
+            if(head->val != prev->val) {
+                return false;
+            }
+            head = head->next;
+            prev = prev->next;
+        }
+
+        return true;
+    }
+};
