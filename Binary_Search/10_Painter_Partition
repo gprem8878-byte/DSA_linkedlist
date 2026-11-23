@@ -1,0 +1,60 @@
+// gfg problem : https://www.geeksforgeeks.org/problems/the-painters-partition-problem1535/1
+class Solution {
+  public:
+    int minTime(vector<int>& arr, int k) {
+
+        // Binary Search on Answer: find the minimum possible maximum time
+        int start = 0, end = 0, mid, ans;
+
+        // Search space:
+        // Minimum time = maximum time required to paint a single board
+        // Maximum time = total time required to paint all boards by one painter
+        for(int i = 0; i < arr.size(); i++) {
+            if(start < arr[i])
+                start = arr[i];
+
+            end += arr[i];
+        }
+
+        // Binary Search to find the minimum feasible maximum time
+        while(start <= end) {
+
+            // Assume mid is the maximum time allowed for each painter
+            mid = start + (end - start) / 2;
+
+            // time = time assigned to the current painter
+            // painter = number of painters required for this time limit
+            int time = 0, painter = 1;
+
+            // Greedy allocation: assign consecutive boards in their given order
+            for(int i = 0; i < arr.size(); i++) {
+
+                // Try assigning the current board to the current painter
+                time += arr[i];
+
+                // If the time limit is exceeded, assign this board to a new painter
+                if(time > mid) {
+                    painter++;       // Increase the number of painters required
+                    time = arr[i];   // Start the new painter's work with this board
+                }
+            }
+
+            // Check whether all boards can be painted using at most k painters
+            if(painter <= k) {
+
+                ans = mid;       // Current time limit is a possible answer
+
+                // We want to minimize the maximum time,
+                // so search for a smaller feasible time limit
+                end = mid - 1;
+            }
+            else {
+                // Current time limit is too small; we need to allow more time
+                start = mid + 1;
+            }
+        }
+
+        // Return the minimum feasible maximum time
+        return ans;
+    }
+};
